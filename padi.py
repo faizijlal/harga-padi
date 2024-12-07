@@ -8,6 +8,9 @@ data = pd.read_csv('datahargapadijawa.csv', sep=';')
 # Konversi kolom 'Tanggal' ke format datetime
 data['Tanggal'] = pd.to_datetime(data['Tanggal'], dayfirst=True)
 
+# Ubah nilai 0 menjadi NaN (kosong) untuk semua kolom numerik
+data.replace(0, pd.NA, inplace=True)
+
 # Mapping bulan dalam bahasa Inggris ke bahasa Indonesia
 bulan_mapping = {
     "January": "Januari", "February": "Februari", "March": "Maret",
