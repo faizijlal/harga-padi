@@ -8,11 +8,16 @@ data = pd.read_csv('datahargapadijawa.csv', sep=';')
 # Konversi kolom 'Tanggal' ke format datetime
 data['Tanggal'] = pd.to_datetime(data['Tanggal'], dayfirst=True)
 
-# Ubah nilai 0 menjadi NaN (kosong) untuk semua kolom numerik
-data.replace(0, pd.NA, inplace=True)
+# Mapping bulan dalam bahasa Inggris ke bahasa Indonesia
+bulan_mapping = {
+    "January": "Januari", "February": "Februari", "March": "Maret",
+    "April": "April", "May": "Mei", "June": "Juni",
+    "July": "Juli", "August": "Agustus", "September": "September",
+    "October": "Oktober", "November": "November", "December": "Desember"
+}
 
 # Tambahkan kolom 'month', 'day', dan 'year' untuk filtering
-data['month'] = data['Tanggal'].dt.month_name(locale='id_ID')  # Nama bulan dalam bahasa Indonesia
+data['month'] = data['Tanggal'].dt.month_name().map(bulan_mapping)  # Nama bulan dalam bahasa Indonesia
 data['day'] = data['Tanggal'].dt.day
 data['year'] = data['Tanggal'].dt.year
 
@@ -29,13 +34,13 @@ data_long = data_long[data_long['year'].isin([2021, 2022, 2023, 2024])]
 # Streamlit app
 st.title("Analisis Harga Rata-rata Padi di Pulau Jawa")
 
-# Region Selection
-selected_province = st.selectbox("Pilih Provinsi", options=java_provinces)
-
 # Month Selection dengan urutan bulan
 month_order = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
 selected_month = st.selectbox("Pilih Bulan", options=month_order)
+
+# Region Selection
+selected_province = st.selectbox("Pilih Provinsi", options=java_provinces)
 
 # Filter data by selected month and province
 filtered_data = data_long[(data_long['month'] == selected_month) & (data_long['province'] == selected_province)]
@@ -70,7 +75,7 @@ st.subheader(f"Prediksi Harga Padi di {selected_province} pada Bulan {selected_m
 st.markdown(
     f"""
     <div style="text-align: center;">
-        <h3 style="color: green; font-size: 70px;"><b>Rp {average_price:,.0f}</b></h3>
+        <h3 style="color: green; font-size: 32px;"><b>Rp {average_price:,.0f}</b></h3>
     </div>
     """,
     unsafe_allow_html=True
