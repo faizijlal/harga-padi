@@ -27,7 +27,11 @@ data_long = data_long[data_long['province'].isin(java_provinces)]
 st.title("Analisis Harga Padi di Pulau Jawa Berbasis Big Data")
 
 # Pilihan Bulan dan Provinsi
-selected_month = st.selectbox("Pilih Bulan", options=sorted(data_long['month'].unique()))
+months_order = [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+]
+selected_month = st.selectbox("Pilih Bulan", options=months_order)
 selected_province = st.selectbox("Pilih Provinsi", options=java_provinces)
 
 # Filter data berdasarkan pilihan bulan dan provinsi
@@ -48,7 +52,8 @@ fig = px.line(
     labels={'day': 'Tanggal', 'price': 'Harga (Rp)', 'year': 'Tahun'},
     markers=True
 )
-fig.update_layout(xaxis=dict(tickmode='linear', tick0=1, dtick=1))  # Set setiap hari di sumbu x
+# Menyesuaikan interval sumbu X jika ada terlalu banyak tanggal
+fig.update_layout(xaxis=dict(tickmode='linear', tick0=1, dtick=5))  # Set setiap 5 hari sekali pada sumbu x
 st.plotly_chart(fig)
 
 # Hitung rata-rata harga
