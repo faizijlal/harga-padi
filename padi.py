@@ -75,7 +75,7 @@ st.subheader(f"Prediksi Harga Padi di {selected_province} pada Bulan {selected_m
 st.markdown(
     f"""
     <div style="text-align: center;">
-        <h3 style="color: green; font-size: 32px;"><b>Rp {average_price:,.0f}</b></h3>
+        <h3 style="color: green; font-size: 80px;"><b>Rp {average_price:,.0f}</b></h3>
     </div>
     """,
     unsafe_allow_html=True
