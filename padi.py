@@ -3,7 +3,7 @@ import streamlit as st
 import plotly.express as px
 
 # Load Dataset
-data = pd.read_csv('C:\\Users\\Faiz Ijlal Ismawan\\Downloads\\datahargapadijawa.csv', sep=';')
+data = pd.read_csv('datahargapadijawa.csv', sep=';')
 
 # Konversi kolom 'Tanggal' ke format datetime
 data['Tanggal'] = pd.to_datetime(data['Tanggal'], dayfirst=True)
